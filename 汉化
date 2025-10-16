@@ -42,7 +42,7 @@ local Translations = {["Misc"] = "杂项",
     ["Map Skeleton"] = "地图骨架",
     ["Robloxia Town"] = "罗布乐思镇",
     ["Click This"] = "点击这里（如果上帝模式失效点击这里修复上帝模式）",
-    ["Make God Mode NO DAMAGE"] = 上帝模式（免疫伤害）
+    ["Make God Mode NO DAMAGE"] = 上帝模式（免疫伤害）",
     ["Get Guns"] = "获取枪械",
     ["God Mode"] = "上帝模式",
     ["Super Speed"] = "速度变超快（死亡重置）",
