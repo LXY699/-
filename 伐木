@@ -28,7 +28,7 @@ local Translations = {["KronHub"] = "克朗中心",
     ["Hard Dragger"] = "强力拖拽工具",
     ["AutoBuytab"] = "自动购买",
     ["AutoBuy"] = "自动购买",  
-    ["Select Item：BasicHatchet - $12"] = "选择物品：基础斧头 - 12美元",  
+    ["Select Item：BasicHatchet-$12"] = "选择物品：基础斧头-12美元",  
     ["SignalSustain - $520"] = "信号保持器 - 520美元",
     ["Open/Close"] = "打开/关闭",
     }
