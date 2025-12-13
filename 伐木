@@ -23,13 +23,14 @@ local Translations = {["KronHub"] = "克朗中心",
     ["Sprint"] = "冲刺",
     ["Noclip"] = "穿墙",
     ["InfJnmp"] = "无限跳跃",
-    ["InfJnmp"] = "无限
     ["Misc"] = "杂项",
-    ["Btools"] = "建筑工具", 
-    ["Hard Dragger"] = "强力拖拽工具", 
-    ["AutoBuytab"] = "自动购买", 
-    ["AutoBuy"] = "自动购买","    ["Select Item：BasicHatchet - $12"] = "选择物品：基础斧头 - 12美元","    ["SignalSustain - $520"] = "信号保持器 - 520美元",
-["Open/Close"] = "打开/关闭",
+    ["Btools"] = "建筑工具",
+    ["Hard Dragger"] = "强力拖拽工具",
+    ["AutoBuytab"] = "自动购买",
+    ["AutoBuy"] = "自动购买",  
+    ["Select Item：BasicHatchet - $12"] = "选择物品：基础斧头 - 12美元",  
+    ["SignalSustain - $520"] = "信号保持器 - 520美元",
+    ["Open/Close"] = "打开/关闭",
     }
 
 local function translateText(text)
