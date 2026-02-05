@@ -1,0 +1,199 @@
+-- 汉化脚本
+-- 江砚辰破解北海
+
+local Translations = {["Main Interface"] = "主页面",
+    ["Toggle"] = "开关",
+    ["Lock"] = "锁定",
+    ["Home"] = "首页",
+    ["Overview and quick access"] = "概览与快速访问",
+    ["Good morning"] = "早上好",
+    ["Good afternoon"] = "下午好",
+    ["晚上好"] = "Good evening",
+    ["Access method: Ad Reward"] = "访问方式：广告奖励",
+    ["Total executions"] = "总执行次数",
+    ["Time remaining"] = "剩余时间",
+    ["Showcasing"] = "展示",
+    ["Interested in getting money for uploading Rift showcases? Please contact us"] = "有兴趣上传展示视频赚取报酬吗？请联系我们",
+    ["Script"] = "脚本",
+    ["Execute"] = "执行",
+    ["Copy"] = "复制",
+    ["Search"] = "搜索",
+    ["Other Scripts"] = "其他脚本",
+    ["Game Status Bar"] = "游戏状态栏",
+    ["Escape Tsunami For Brainrots"] = "逃离海啸脑残模式",
+    ["Main Features Menu"] = "核心功能菜单",
+    ["Main"] = "主要功能",
+    ["Auto Spin Wheel"] = "自动转轮",
+    ["If Type"] = "条件类型",
+    ["Money"] = "金钱",
+    ["Player"] = "玩家",
+    ["Auto Desync"] = "自动取消同步",
+    ["Re-Desync on Player Join"] = "玩家加入时重新取消同步",
+    ["Disable Animations"] = "禁用动画",
+    ["Auto Open Lucky Blocks"] = "自动开启幸运方块",
+    ["If Lucky Block"] = "幸运方块条件",
+    ["Auto Predict Lucky Blocks"] = "自动预测幸运方块",
+    ["Rebirth"] = "重生",
+    ["Auto Rebirth"] = "自动重生",
+    ["Settings Menu"] = "设置菜单",
+    ["Settings"] = "设置",
+    ["UI layout and style"] = "UI布局与样式",
+    ["Delete"] = "删除",
+    ["Export"] = "导出",
+    ["Load"] = "加载",
+    ["Overwrite"] = "覆盖",
+    ["Refresh List"] = "刷新列表",
+    ["Import Data"] = "导入数据",
+    ["Import Config"] = "导入配置",
+    ["Import Theme"] = "导入主题",
+    ["Set as Default"] = "设置默认",
+    ["Reset Default"] = "重置默认",
+    ["Set Autoload"] = "设置自动加载",
+    ["Reset"] = "重置",
+    ["Current Autoload Config"] = "当前自动加载配置",
+    ["Theme Customization"] = "主题定制",
+    ["Theme"] = "主题",
+    ["Default"] = "默认",
+    ["Custom Themes"] = "自定义主题",
+    ["Custom Theme Name"] = "自定义主题名称",
+    ["Create Theme"] = "创建主题",
+    ["Color Settings"] = "颜色设置",
+    ["Background Colour"] = "背景颜色",
+    ["Main Colour"] = "主色调",
+    
+    
+    
+    
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+     
+    }
+
+local function translateText(text)
+    if not text or type(text) ~= "string" then return text end
+    
+    if Translations[text] then
+        return Translations[text]
+    end
+    
+    for en, cn in pairs(Translations) do
+        if text:find(en) then
+            return text:gsub(en, cn)
+        end
+    end
+    
+    return text
+end
+
+local function setupTranslationEngine()
+    local success, err = pcall(function()
+        local oldIndex = getrawmetatable(game).__newindex
+        setreadonly(getrawmetatable(game), false)
+        
+        getrawmetatable(game).__newindex = newcclosure(function(t, k, v)
+            if (t:IsA("TextLabel") or t:IsA("TextButton") or t:IsA("TextBox")) and k == "Text" then
+                v = translateText(tostring(v))
+            end
+            return oldIndex(t, k, v)
+        end)
+        
+        setreadonly(getrawmetatable(game), true)
+    end)
+    
+    if not success then
+        warn("元表劫持失败:", err)
+       
+        local translated = {}
+        local function scanAndTranslate()
+            for _, gui in ipairs(game:GetService("CoreGui"):GetDescendants()) do
+                if (gui:IsA("TextLabel") or gui:IsA("TextButton") or gui:IsA("TextBox")) and not translated[gui] then
+                    pcall(function()
+                        local text = gui.Text
+                        if text and text ~= "" then
+                            local translatedText = translateText(text)
+                            if translatedText ~= text then
+                                gui.Text = translatedText
+                                translated[gui] = true
+                            end
+                        end
+                    end)
+                end
+            end
+            
+            local player = game:GetService("Players").LocalPlayer
+            if player and player:FindFirstChild("PlayerGui") then
+                for _, gui in ipairs(player.PlayerGui:GetDescendants()) do
+                    if (gui:IsA("TextLabel") or gui:IsA("TextButton") or gui:IsA("TextBox")) and not translated[gui] then
+                        pcall(function()
+                            local text = gui.Text
+                            if text and text ~= "" then
+                                local translatedText = translateText(text)
+                                if translatedText ~= text then
+                                    gui.Text = translatedText
+                                    translated[gui] = true
+                                end
+                            end
+                        end)
+                    end
+                end
+            end
+        end
+        
+        local function setupDescendantListener(parent)
+            parent.DescendantAdded:Connect(function(descendant)
+                if descendant:IsA("TextLabel") or descendant:IsA("TextButton") or descendant:IsA("TextBox") then
+                    task.wait(0.1)
+                    pcall(function()
+                        local text = descendant.Text
+                        if text and text ~= "" then
+                            local translatedText = translateText(text)
+                            if translatedText ~= text then
+                                descendant.Text = translatedText
+                            end
+                        end
+                    end)
+                end
+            end)
+        end
+        
+        pcall(setupDescendantListener, game:GetService("CoreGui"))
+        local player = game:GetService("Players").LocalPlayer
+        if player and player:FindFirstChild("PlayerGui") then
+            pcall(setupDescendantListener, player.PlayerGui)
+        end
+        
+        while true do
+            scanAndTranslate()
+            task.wait(3)
+        end
+    end
+end
+
+task.wait(2)
+
+setupTranslationEngine()
+
+local success, err = pcall(function()
+loadstring(game:HttpGet("https://rifton.top/loader.lua"))()
+end)
+
+if not success then
+    warn("加载失败:", err)
+end
